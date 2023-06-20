@@ -48,15 +48,15 @@
 
 @media screen and (max-width: 1000px) {
   .main__promo {
-    margin: -74px -30px 0;
+    margin: -74px -50px 0;
   }
 
   .promo__text-container {
-    margin-left: 30px;
+    margin-left: 50px;
   }
 
   .promo__pic {
-    margin-right: 30px;
+    margin-right: 50px;
   }
 }
 
@@ -111,9 +111,9 @@
   }
 }
 
-@media screen and (max-width: 470px) {
+@media screen and (max-width: 540px) {
   .main__promo {
-    margin: -74px -14px 0;
+    margin: -74px -18px 0;
   }
 
   .promo {
@@ -121,7 +121,7 @@
   }
 
   .promo__text-container {
-    margin: 44px 14px;
+    margin: 44px 18px;
   }
 
   .promo__title {

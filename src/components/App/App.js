@@ -3,11 +3,11 @@ import { Routes, Route } from "react-router-dom";
 import "./App.css";
 import Main from "../Main/Main";
 import Movies from "../Movies/Movies";
-import SavedMovies from "../SavedMovies";
-import Register from "../Register";
-import Profile from "../Profile";
-import Login from "../Login";
-import PageNotFound from "../PageNotFound";
+import SavedMovies from "../SavedMovies/SavedMovies";
+import Register from "../Register/Register";
+import Profile from "../Profile/Profile";
+import Login from "../Login/Login";
+import PageNotFound from "../PageNotFound/PageNotFound";
 
 function App() {
   return (

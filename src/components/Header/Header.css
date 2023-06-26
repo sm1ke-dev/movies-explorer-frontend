@@ -26,6 +26,57 @@
   border-radius: 3px;
 }
 
+.header__nav-container {
+  margin-left: 63px;
+}
+
+.header__nav {
+  text-decoration: none;
+  color: #000;
+  margin-left: 16px;
+  font-size: 13px;
+  line-height: 18px;
+}
+
+.header__account-container {
+  display: flex;
+  align-items: center;
+}
+
+.header__account {
+  margin-right: 17px;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 16px;
+}
+
+.header__icon {
+  background-color: #f9f9f9;
+  border-radius: 4px;
+  width: 26px;
+  height: 30px;
+  background-repeat: no-repeat;
+  background-size: 11.5px;
+  background-position: center;
+}
+
+.header__burger {
+  display: none;
+  width: 44px;
+  height: 44px;
+}
+
+@media screen and (max-width: 780px) {
+  .header__nav-container,
+  .header__account-container {
+    display: none;
+  }
+
+  .header__burger {
+    display: block;
+  }
+}
+
 @media screen and (max-width: 400px) {
   .header__link {
     font-size: 10px;

@@ -105,7 +105,7 @@ input:checked[type="checkbox"]::before {
 
 @media screen and (max-width: 830px) {
   .search {
-    padding: 80px 0;
+    padding: 80px 0 110px;
   }
 
   .search__form-container {

@@ -20,10 +20,20 @@ function Header(props) {
       ) : (
         <>
           <div className="header__nav-container">
-            <a className="header__nav" href="#">
+            <a
+              className={`header__nav ${
+                !props.saved ? "header__nav_selected" : ""
+              }`}
+              href="#"
+            >
               Фильмы
             </a>
-            <a className="header__nav" href="#">
+            <a
+              className={`header__nav ${
+                props.saved ? "header__nav_selected" : ""
+              }`}
+              href="#"
+            >
               Сохраненные фильмы
             </a>
           </div>

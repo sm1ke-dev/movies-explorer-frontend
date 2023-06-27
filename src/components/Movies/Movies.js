@@ -2,6 +2,7 @@ import React from "react";
 import Footer from "../Footer/Footer";
 import Header from "../Header/Header";
 import SearchForm from "../SearchForm/SearchForm";
+import MoviesCardList from "../MoviesCardList/MoviesCardList";
 
 function Movies() {
   return (
@@ -9,6 +10,7 @@ function Movies() {
       <Header movies={true} />
       <main className="movies">
         <SearchForm />
+        <MoviesCardList />
       </main>
       <Footer />
     </>

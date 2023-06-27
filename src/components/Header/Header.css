@@ -38,6 +38,10 @@
   line-height: 18px;
 }
 
+.header__nav_selected {
+  font-weight: 500;
+}
+
 .header__account-container {
   display: flex;
   align-items: center;

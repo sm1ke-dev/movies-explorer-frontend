@@ -1,0 +1,50 @@
+.not-found__title {
+  margin: 246px 0 5px;
+  font-weight: normal;
+  text-align: center;
+  font-size: 140px;
+  line-height: normal;
+}
+
+.not-found__subtitle {
+  margin: 0 0 184px;
+  text-align: center;
+  font-size: 16px;
+  line-height: normal;
+}
+
+.not-found__link {
+  margin: 0;
+  display: block;
+  text-align: center;
+  text-decoration: none;
+  color: #000;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.not-found__link:hover {
+  opacity: 0.7;
+}
+
+@media screen and (max-width: 1000px) {
+  .not-found__title {
+    margin-top: 408px;
+  }
+}
+
+@media screen and (max-width: 620px) {
+  .not-found__title {
+    margin: 329px 0 11px;
+    font-size: 80px;
+  }
+
+  .not-found__subtitle {
+    font-size: 12px;
+    margin-bottom: 287px;
+  }
+
+  .not-found__link {
+    font-size: 12px;
+  }
+}

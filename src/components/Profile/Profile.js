@@ -5,7 +5,7 @@ import Header from "../Header/Header";
 function Profile() {
   return (
     <>
-      <Header page="profile" />
+      <Header page="profile" loggedIn={true} />
       <main className="profile">
         <h2 className="profile__title">Привет, Виталий!</h2>
         <form className="profile__form">

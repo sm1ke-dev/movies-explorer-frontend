@@ -8,7 +8,7 @@ function Header(props) {
   return (
     <header className="header">
       <img src={logo} alt="Лого" className="header__logo" />
-      {props.page === "main" ? (
+      {!props.loggedIn ? (
         <div>
           <a href="#" className="header__link">
             Регистрация

@@ -7,7 +7,7 @@ import MoviesCardList from "../MoviesCardList/MoviesCardList";
 function SavedMovies() {
   return (
     <>
-      <Header page="saved" />
+      <Header page="saved" loggedIn={true} />
       <main className="saved-movies">
         <SearchForm />
         <MoviesCardList saved={true} />

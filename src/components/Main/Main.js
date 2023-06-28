@@ -10,7 +10,7 @@ import Footer from "../Footer/Footer";
 function Main() {
   return (
     <>
-      <Header page="main" />
+      <Header page="main" loggedIn={true} />
       <main className="main">
         <Promo />
         <AboutProject />

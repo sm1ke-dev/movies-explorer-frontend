@@ -78,6 +78,7 @@ function Header(props) {
           <img
             className="mobile-menu__close"
             src={burgerClose}
+            alt="Иконка закрытия"
             onClick={() => setIsMenuOpened(false)}
           />
           <ul className="mobile-menu__list">

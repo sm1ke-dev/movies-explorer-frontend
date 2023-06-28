@@ -12,7 +12,7 @@ function Register() {
         <AuthorizationForm btnText="Зарегистрироваться">
           <>
             <p className="form__name">Имя</p>
-            <input className="form__input" />
+            <input className="form__input" required />
           </>
         </AuthorizationForm>
         <AuthText page="signup" />

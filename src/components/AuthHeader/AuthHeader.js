@@ -5,7 +5,7 @@ import logo from "../../images/logo.svg";
 function AuthHeader(props) {
   return (
     <header className="auth-header">
-      <img className="auth-header__logo" src={logo} />
+      <img className="auth-header__logo" src={logo} alt="Лого" />
       <h2 className="auth-header__title">
         {props.page === "signup" ? "Добро пожаловать!" : "Рады видеть!"}
       </h2>

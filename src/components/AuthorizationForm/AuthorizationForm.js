@@ -6,9 +6,9 @@ function AuthorizationForm(props) {
     <form className="form">
       {props.children}
       <p className="form__name">E-mail</p>
-      <input className="form__input" />
+      <input className="form__input" required />
       <p className="form__name">Пароль</p>
-      <input className="form__input" />
+      <input className="form__input" required />
       <button className="form__submit-btn" type="submit">
         {props.btnText}
       </button>

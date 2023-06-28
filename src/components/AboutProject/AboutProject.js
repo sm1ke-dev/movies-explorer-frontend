@@ -4,7 +4,9 @@ import "./AboutProject.css";
 function AboutProject() {
   return (
     <div className="about-project">
-      <h2 className="about-project__title">О проекте</h2>
+      <h2 className="about-project__title" id="more">
+        О проекте
+      </h2>
       <span className="about-project__line"></span>
       <div className="about-project__info">
         <div className="about-project__column">

@@ -4,46 +4,53 @@ import logo from "../../images/logo.svg";
 import accountIcon from "../../images/account-icon.svg";
 import burgerIcon from "../../images/burger-icon.svg";
 import burgerClose from "../../images/burger-close.svg";
+import { Link, useNavigate } from "react-router-dom";
 
 function Header(props) {
   const [isMenuOpened, setIsMenuOpened] = React.useState(false);
+  const navigate = useNavigate();
 
   return (
     <header className="header">
-      <img src={logo} alt="Лого" className="header__logo" />
+      <img
+        src={logo}
+        alt="Лого"
+        className="header__logo"
+        onClick={() => navigate("/")}
+      />
       {!props.loggedIn ? (
         <div>
-          <a href="#" className="header__link">
+          <Link to="/signup" className="header__link">
             Регистрация
-          </a>
-          <a href="#" className="header__link">
+          </Link>
+          <Link to="/signin" className="header__link">
             Войти
-          </a>
+          </Link>
         </div>
       ) : (
         <>
           <div className="header__nav-container">
-            <a
+            <Link
+              to="/movies"
               className={`header__nav ${
                 props.page === "movies" ? "header__nav_selected" : ""
               }`}
-              href="#"
             >
               Фильмы
-            </a>
-            <a
+            </Link>
+            <Link
+              to="/saved-movies"
               className={`header__nav ${
                 props.page === "saved" ? "header__nav_selected" : ""
               }`}
-              href="#"
             >
               Сохраненные фильмы
-            </a>
+            </Link>
           </div>
           <div className="header__account-container">
-            <a className="header__nav header__account" href="#">
+            <Link to="/profile" className="header__nav header__account">
               Аккаунт
-            </a>
+            </Link>
             <div
               className="header__icon"
               style={{

@@ -7,15 +7,33 @@ function Portfolio() {
       <h3 className="portfolio__name">Портфолио</h3>
       <ul className="portfolio__list">
         <li className="portfolio__item">
-          <a className="portfolio__link">Статичный сайт</a>
+          <a
+            className="portfolio__link"
+            href="https://github.com/sm1ke-dev/how-to-learn"
+            target="_blank"
+          >
+            Статичный сайт
+          </a>
           <span className="portfolio__arrow">↗</span>
         </li>
         <li className="portfolio__item">
-          <a className="portfolio__link">Адаптивный сайт</a>
+          <a
+            className="portfolio__link"
+            href="https://sm1ke-dev.github.io/russian-travel/"
+            target="_blank"
+          >
+            Адаптивный сайт
+          </a>
           <span className="portfolio__arrow">↗</span>
         </li>
         <li className="portfolio__item">
-          <a className="portfolio__link">Одностраничное приложение</a>
+          <a
+            className="portfolio__link"
+            href="https://mesto.gud.nomoredomains.rocks/"
+            target="_blank"
+          >
+            Одностраничное приложение
+          </a>
           <span className="portfolio__arrow">↗</span>
         </li>
       </ul>

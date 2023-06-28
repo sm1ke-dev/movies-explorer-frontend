@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import "./AuthText.css";
 
 function AuthText(props) {
@@ -8,13 +9,13 @@ function AuthText(props) {
         ? "Уже зарегистрированы? "
         : "Ещё не зарегистрированы? "}
       {props.page === "signup" ? (
-        <a className="auth-text__link" href="#">
+        <Link to="/signin" className="auth-text__link" href="#">
           Войти
-        </a>
+        </Link>
       ) : (
-        <a className="auth-text__link" href="#">
+        <Link to="/signup" className="auth-text__link" href="#">
           Регистрация
-        </a>
+        </Link>
       )}
     </p>
   );

@@ -6,7 +6,7 @@ import promoPic from "../../images/promo-pic.png";
 
 function Promo() {
   return (
-    <div className="promo main__promo">
+    <section className="promo main__promo">
       <div className="promo__text-container">
         <h1 className="promo__title">
           Учебный проект студента факультета Веб-разработки.
@@ -19,7 +19,7 @@ function Promo() {
         </HashLink>
       </div>
       <img className="promo__pic" src={promoPic} alt="Лого" />
-    </div>
+    </section>
   );
 }
 

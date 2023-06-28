@@ -8,7 +8,7 @@ function Header(props) {
   return (
     <header className="header">
       <img src={logo} alt="Лого" className="header__logo" />
-      {!props.movies ? (
+      {props.page === "main" ? (
         <div>
           <a href="#" className="header__link">
             Регистрация
@@ -22,7 +22,7 @@ function Header(props) {
           <div className="header__nav-container">
             <a
               className={`header__nav ${
-                !props.saved ? "header__nav_selected" : ""
+                props.page === "movies" ? "header__nav_selected" : ""
               }`}
               href="#"
             >
@@ -30,7 +30,7 @@ function Header(props) {
             </a>
             <a
               className={`header__nav ${
-                props.saved ? "header__nav_selected" : ""
+                props.page === "saved" ? "header__nav_selected" : ""
               }`}
               href="#"
             >

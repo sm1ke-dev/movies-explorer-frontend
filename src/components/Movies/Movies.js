@@ -7,7 +7,7 @@ import MoviesCardList from "../MoviesCardList/MoviesCardList";
 function Movies() {
   return (
     <>
-      <Header movies={true} />
+      <Header page="movies" />
       <main className="movies">
         <SearchForm />
         <MoviesCardList />

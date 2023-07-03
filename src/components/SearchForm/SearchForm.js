@@ -3,7 +3,7 @@ import "./SearchForm.css";
 import searchIcon from "../../images/search-icon.svg";
 import whiteSearchIcon from "../../images/search-icon-white.svg";
 
-function SearchForm() {
+function SearchForm({ value, onChange, onSubmit, isInputOn, setIsInputOn }) {
   return (
     <section className="search">
       <div className="search__form-container">
@@ -11,12 +11,15 @@ function SearchForm() {
           className="search__icon"
           style={{ backgroundImage: `url(${searchIcon})` }}
         ></div>
-        <form className="search__form">
+        <form className="search__form" onSubmit={onSubmit}>
           <input
             className="search__input"
+            name="moviename"
             type="text"
             placeholder="Фильм"
             required
+            value={value}
+            onChange={(e) => onChange(e.target.value)}
           ></input>
           <button
             className="search__button"
@@ -26,7 +29,7 @@ function SearchForm() {
         </form>
         <div className="search__line"></div>
         <div className="search__shorts-container">
-          <input type="checkbox" />
+          <input type="checkbox" onClick={() => setIsInputOn(!isInputOn)} />
           <p className="search__shorts">Короткометражки</p>
         </div>
       </div>

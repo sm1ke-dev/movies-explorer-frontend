@@ -14,12 +14,16 @@ function MoviesCard(props) {
       onMouseOut={() => setIsHovered(false)}
     >
       <div className="card__img-container">
-        <img className="card__img" src={moviePic} alt="Фильм" />
+        <img
+          className="card__img"
+          src={`https://api.nomoreparties.co/${props.cardElement.image.url}`}
+          alt="Фильм"
+        />
       </div>
       <div className="card__about-container">
-        <h4 className="card__title">{props.title}</h4>
+        <h4 className="card__title">{props.cardElement.nameRU}</h4>
         <div className="card__time-container">
-          <p className="card__time">1ч 17м</p>
+          <p className="card__time">{props.cardElement.duration}м.</p>
         </div>
       </div>
       {!props.saved && isHovered && <SaveButton />}

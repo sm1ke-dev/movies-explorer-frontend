@@ -5,7 +5,6 @@ import DeleteButton from "../DeleteButton/DeleteButton";
 
 function MoviesCard(props) {
   const [isHovered, setIsHovered] = React.useState(false);
-  console.log(props.cardElement);
 
   const convertTime = (mins) => {
     const hours = Math.trunc(mins / 60);

@@ -6,7 +6,7 @@ import MoviesCardList from "../MoviesCardList/MoviesCardList";
 import { moviesApi } from "../../utils/MoviesApi";
 import Preloader from "../Preloader/Preloader";
 
-function Movies() {
+function Movies({ isLoggedIn }) {
   const [inputValue, setInputValue] = useState("");
   const [initialMoviesCards, setInitialMoviesCards] = useState([]);
   const [moviesCards, setMoviesCards] = useState([]);
@@ -47,7 +47,7 @@ function Movies() {
 
   return (
     <>
-      <Header page="movies" loggedIn={true} />
+      <Header page="movies" isLoggedIn={isLoggedIn} />
       <main className="movies">
         <SearchForm
           value={inputValue}

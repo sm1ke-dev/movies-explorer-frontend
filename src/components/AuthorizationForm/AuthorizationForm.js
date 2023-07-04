@@ -8,10 +8,10 @@ function AuthorizationForm({
   handleChange,
   errors,
   isValid,
-  resetForm,
+  onSubmit,
 }) {
   return (
-    <form className="form">
+    <form className="form" onSubmit={onSubmit}>
       {children}
       <p className="form__name">E-mail</p>
       <input

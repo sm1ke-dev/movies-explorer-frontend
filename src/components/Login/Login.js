@@ -4,7 +4,7 @@ import AuthorizationForm from "../AuthorizationForm/AuthorizationForm";
 import AuthHeader from "../AuthHeader/AuthHeader";
 import AuthText from "../AuthText/AuthText";
 
-function Login({ values, handleChange, errors, isValid, resetForm }) {
+function Login({ values, handleChange, errors, isValid, resetForm, onSubmit }) {
   return (
     <>
       <AuthHeader page="signin" />
@@ -16,6 +16,7 @@ function Login({ values, handleChange, errors, isValid, resetForm }) {
           errors={errors}
           isValid={isValid}
           resetForm={resetForm}
+          onSubmit={onSubmit}
         />
         <AuthText page="signin" />
       </main>

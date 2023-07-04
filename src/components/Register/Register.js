@@ -4,7 +4,14 @@ import AuthorizationForm from "../AuthorizationForm/AuthorizationForm";
 import AuthHeader from "../AuthHeader/AuthHeader";
 import AuthText from "../AuthText/AuthText";
 
-function Register({ values, handleChange, errors, isValid, resetForm }) {
+function Register({
+  values,
+  handleChange,
+  errors,
+  isValid,
+  resetForm,
+  onSubmit,
+}) {
   return (
     <>
       <AuthHeader page="signup" />
@@ -15,7 +22,7 @@ function Register({ values, handleChange, errors, isValid, resetForm }) {
           handleChange={handleChange}
           errors={errors}
           isValid={isValid}
-          resetForm={resetForm}
+          onSubmit={onSubmit}
         >
           <>
             <p className="form__name">Имя</p>

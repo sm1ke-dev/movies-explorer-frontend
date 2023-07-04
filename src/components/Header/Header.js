@@ -18,7 +18,7 @@ function Header(props) {
         className="header__logo"
         onClick={() => navigate("/")}
       />
-      {!props.loggedIn ? (
+      {!props.isLoggedIn ? (
         <div>
           <Link to="/signup" className="header__link">
             Регистрация

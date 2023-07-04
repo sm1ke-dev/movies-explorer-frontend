@@ -4,12 +4,14 @@ import Header from "../Header/Header";
 import SearchForm from "../SearchForm/SearchForm";
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
 import { moviesApi } from "../../utils/MoviesApi";
+import Preloader from "../Preloader/Preloader";
 
 function Movies() {
   const [inputValue, setInputValue] = useState("");
   const [initialMoviesCards, setInitialMoviesCards] = useState([]);
   const [moviesCards, setMoviesCards] = useState([]);
   const [isInputOn, setIsInputOn] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(true);
 
   useEffect(() => {
     if (isInputOn) {
@@ -20,6 +22,7 @@ function Movies() {
   }, [isInputOn]);
 
   const handleSubmit = (e) => {
+    setIsLoaded(false);
     e.preventDefault();
 
     moviesApi
@@ -38,7 +41,8 @@ function Movies() {
         setInitialMoviesCards(foundMovies);
         setMoviesCards(foundMovies);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => console.log(err))
+      .finally(() => setIsLoaded(true));
   };
 
   return (
@@ -52,7 +56,7 @@ function Movies() {
           isInputOn={isInputOn}
           setIsInputOn={setIsInputOn}
         />
-        <MoviesCardList movies={moviesCards} />
+        {isLoaded ? <MoviesCardList movies={moviesCards} /> : <Preloader />}
       </main>
       <Footer />
     </>

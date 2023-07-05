@@ -117,6 +117,10 @@ function App() {
               isLoggedIn={isLoggedIn}
               currentUser={currentUser}
               handleLogout={handleLogout}
+              values={values}
+              handleChange={handleChange}
+              isValid={isValid}
+              setCurrentUser={setCurrentUser}
             />
           }
         />

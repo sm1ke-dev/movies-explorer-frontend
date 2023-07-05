@@ -71,6 +71,15 @@
   opacity: 0.7;
 }
 
+.profile__submit-btn_inactive {
+  cursor: default;
+  opacity: 0.25;
+}
+
+.profile__submit-btn_inactive:hover {
+  opacity: 0.25;
+}
+
 .profile__sign-out {
   font-weight: 500;
   color: #ff4062;

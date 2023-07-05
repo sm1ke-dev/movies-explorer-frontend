@@ -53,6 +53,18 @@ class MainApi {
       credentials: this._credentials,
     });
   }
+
+  updateProfile(email, name) {
+    return this._request(`${this._baseUrl}/users/me`, {
+      method: "PATCH",
+      headers: this._headers,
+      credentials: this._credentials,
+      body: JSON.stringify({
+        email,
+        name,
+      }),
+    });
+  }
 }
 
 export const mainApi = new MainApi({

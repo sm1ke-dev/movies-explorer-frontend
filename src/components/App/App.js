@@ -51,7 +51,7 @@ function App() {
             setIsLoggedIn(true);
             localStorage.setItem("token", "tokenIsActive");
             setCurrentUser(res.data);
-            navigate("/", { replace: true });
+            navigate("/movies", { replace: true });
           })
           .catch((err) => console.log(err));
       })
@@ -70,7 +70,7 @@ function App() {
           setIsLoggedIn(true);
           localStorage.setItem("token", "tokenIsActive");
           setCurrentUser(user.data);
-          navigate("/", { replace: true });
+          navigate("/movies", { replace: true });
         });
       })
       .catch((err) => console.log(err));

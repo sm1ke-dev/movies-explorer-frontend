@@ -11,10 +11,13 @@ import Login from "../Login/Login";
 import PageNotFound from "../PageNotFound/PageNotFound";
 import { useFormWithValidation } from "../../hooks/useFormWithValidation";
 import { mainApi } from "../../utils/MainApi";
+import ProtectedRouteElement from "../ProtectedRoute/ProtectedRoute";
+import Preloader from "../Preloader/Preloader";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [currentUser, setCurrentUser] = useState({});
+  const [isLoading, setIsLoading] = useState(true);
 
   const { values, handleChange, errors, isValid, resetForm } =
     useFormWithValidation();
@@ -30,12 +33,7 @@ function App() {
       mainApi.getMyInfo().then((res) => {
         setIsLoggedIn(true);
         setCurrentUser(res.data);
-        if (
-          window.location.pathname === "/signup" ||
-          window.location.pathname === "/signin"
-        ) {
-          navigate("/", { replace: true });
-        }
+        setIsLoading(false);
       });
     }
   };
@@ -70,6 +68,7 @@ function App() {
         console.log(res);
         mainApi.getMyInfo().then((user) => {
           setIsLoggedIn(true);
+          localStorage.setItem("token", "tokenIsActive");
           setCurrentUser(user.data);
           navigate("/", { replace: true });
         });
@@ -89,19 +88,32 @@ function App() {
       .catch((err) => console.log(err));
   };
 
-  return (
+  return isLoading ? (
+    <Preloader />
+  ) : (
     <div className="page">
       <Routes>
         <Route path="/" element={<Main isLoggedIn={isLoggedIn} />} />
-        <Route path="/movies" element={<Movies isLoggedIn={isLoggedIn} />} />
+        <Route
+          path="/movies"
+          element={
+            <ProtectedRouteElement element={Movies} isLoggedIn={isLoggedIn} />
+          }
+        />
         <Route
           path="/saved-movies"
-          element={<SavedMovies isLoggedIn={isLoggedIn} />}
+          element={
+            <ProtectedRouteElement
+              element={SavedMovies}
+              isLoggedIn={isLoggedIn}
+            />
+          }
         />
         <Route
           path="/profile"
           element={
-            <Profile
+            <ProtectedRouteElement
+              element={Profile}
               isLoggedIn={isLoggedIn}
               currentUser={currentUser}
               handleLogout={handleLogout}

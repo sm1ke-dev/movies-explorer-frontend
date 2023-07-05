@@ -62,3 +62,6 @@ export const mainApi = new MainApi({
   },
   credentials: "include",
 });
+
+// 'http://localhost:3001'
+// "https://api.bitfilms.gud.nomoredomains.rocks"

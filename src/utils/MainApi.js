@@ -102,12 +102,9 @@ class MainApi {
 }
 
 export const mainApi = new MainApi({
-  baseUrl: "http://localhost:3001",
+  baseUrl: "https://api.bitfilms.gud.nomoredomains.rocks",
   headers: {
     "Content-Type": "application/json",
   },
   credentials: "include",
 });
-
-// 'http://localhost:3001'
-// "https://api.bitfilms.gud.nomoredomains.rocks"

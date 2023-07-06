@@ -21,6 +21,7 @@ function Register({ values, handleChange, errors, isValid, onSubmit }) {
             <p className="form__name">Имя</p>
             <input
               name="username"
+              type="text"
               className="form__input"
               required
               minLength="2"

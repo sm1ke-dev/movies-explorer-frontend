@@ -16,6 +16,7 @@ function AuthorizationForm({
       <p className="form__name">E-mail</p>
       <input
         name="email"
+        type="email"
         className="form__input"
         required
         value={values.email}
@@ -25,6 +26,7 @@ function AuthorizationForm({
       <p className="form__name">Пароль</p>
       <input
         name="password"
+        type="password"
         className="form__input"
         required
         value={values.password}

@@ -6,7 +6,7 @@ import MoviesCardList from "../MoviesCardList/MoviesCardList";
 import { moviesApi } from "../../utils/MoviesApi";
 import Preloader from "../Preloader/Preloader";
 
-function Movies({ isLoggedIn }) {
+function Movies({ isLoggedIn, savedMovies, saveMovie, deleteMovie }) {
   const [inputValue, setInputValue] = useState("");
   const [initialMoviesCards, setInitialMoviesCards] = useState([]);
   const [moviesCards, setMoviesCards] = useState([]);
@@ -56,7 +56,16 @@ function Movies({ isLoggedIn }) {
           isInputOn={isInputOn}
           setIsInputOn={setIsInputOn}
         />
-        {isLoaded ? <MoviesCardList movies={moviesCards} /> : <Preloader />}
+        {isLoaded ? (
+          <MoviesCardList
+            movies={moviesCards}
+            savedMovies={savedMovies}
+            saveMovie={saveMovie}
+            deleteMovie={deleteMovie}
+          />
+        ) : (
+          <Preloader />
+        )}
       </main>
       <Footer />
     </>

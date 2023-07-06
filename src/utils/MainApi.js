@@ -65,6 +65,40 @@ class MainApi {
       }),
     });
   }
+
+  getMovies() {
+    return this._request(`${this._baseUrl}/movies`, {
+      credentials: this._credentials,
+    });
+  }
+
+  saveMovie(movieCard) {
+    return this._request(`${this._baseUrl}/movies`, {
+      method: "POST",
+      headers: this._headers,
+      credentials: this._credentials,
+      body: JSON.stringify({
+        country: movieCard.country,
+        director: movieCard.director,
+        duration: movieCard.duration,
+        year: movieCard.year,
+        description: movieCard.description,
+        image: `https://api.nomoreparties.co${movieCard.image.url}`,
+        trailerLink: movieCard.trailerLink,
+        thumbnail: `https://api.nomoreparties.co${movieCard.image.formats.thumbnail.url}`,
+        movieId: movieCard.id,
+        nameRU: movieCard.nameRU,
+        nameEN: movieCard.nameEN,
+      }),
+    });
+  }
+
+  deleteMovie(movieCard) {
+    return this._request(`${this._baseUrl}/movies/${movieCard._id}`, {
+      method: "DELETE",
+      credentials: this._credentials,
+    });
+  }
 }
 
 export const mainApi = new MainApi({

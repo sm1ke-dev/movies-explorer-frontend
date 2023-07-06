@@ -24,7 +24,14 @@ function MoviesCardList(props) {
     <section className="cards">
       <ul className="cards__list">
         {props.movies.slice(0, cardsShown).map((movie) => (
-          <MoviesCard cardElement={movie} key={movie.id} saved={props.saved} />
+          <MoviesCard
+            cardElement={movie}
+            key={movie.id}
+            saved={props.saved}
+            savedMovies={props.savedMovies}
+            saveMovie={props.saveMovie}
+            deleteMovie={props.deleteMovie}
+          />
         ))}
       </ul>
       {props.movies.length > cardsShown && (

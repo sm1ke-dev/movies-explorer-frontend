@@ -18,6 +18,8 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [currentUser, setCurrentUser] = useState({});
   const [isLoading, setIsLoading] = useState(true);
+  const [initialSavedMovies, setInitialSavedMovies] = useState([]);
+  const [savedMovies, setSavedMovies] = useState([]);
 
   const { values, handleChange, errors, isValid, resetForm } =
     useFormWithValidation();
@@ -26,6 +28,7 @@ function App() {
 
   useEffect(() => {
     tokenCheck();
+    getMovies();
   }, []);
 
   const tokenCheck = () => {
@@ -88,6 +91,34 @@ function App() {
       .catch((err) => console.log(err));
   };
 
+  const getMovies = () => {
+    mainApi
+      .getMovies()
+      .then((res) => {
+        setInitialSavedMovies(res.data);
+        setSavedMovies(res.data);
+      })
+      .catch((err) => console.log(err));
+  };
+
+  const saveMovie = (card) => {
+    mainApi
+      .saveMovie(card)
+      .then((res) => {
+        getMovies();
+      })
+      .catch((err) => console.log(err));
+  };
+
+  const deleteMovie = (card) => {
+    mainApi
+      .deleteMovie(card)
+      .then((res) => {
+        getMovies();
+      })
+      .catch((err) => console.log(err));
+  };
+
   return isLoading ? (
     <Preloader />
   ) : (
@@ -97,7 +128,13 @@ function App() {
         <Route
           path="/movies"
           element={
-            <ProtectedRouteElement element={Movies} isLoggedIn={isLoggedIn} />
+            <ProtectedRouteElement
+              element={Movies}
+              isLoggedIn={isLoggedIn}
+              savedMovies={savedMovies}
+              saveMovie={saveMovie}
+              deleteMovie={deleteMovie}
+            />
           }
         />
         <Route
@@ -106,6 +143,10 @@ function App() {
             <ProtectedRouteElement
               element={SavedMovies}
               isLoggedIn={isLoggedIn}
+              savedMovies={savedMovies}
+              setSavedMovies={setSavedMovies}
+              initialSavedMovies={initialSavedMovies}
+              deleteMovie={deleteMovie}
             />
           }
         />

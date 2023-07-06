@@ -28,8 +28,11 @@ function App() {
 
   useEffect(() => {
     tokenCheck();
-    getMovies();
   }, []);
+
+  useEffect(() => {
+    isLoggedIn && getMovies();
+  }, [isLoggedIn]);
 
   const tokenCheck = () => {
     if (localStorage.getItem("token")) {
@@ -38,6 +41,8 @@ function App() {
         setCurrentUser(res.data);
         setIsLoading(false);
       });
+    } else {
+      setIsLoading(false);
     }
   };
 

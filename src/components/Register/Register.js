@@ -4,14 +4,7 @@ import AuthorizationForm from "../AuthorizationForm/AuthorizationForm";
 import AuthHeader from "../AuthHeader/AuthHeader";
 import AuthText from "../AuthText/AuthText";
 
-function Register({
-  values,
-  handleChange,
-  errors,
-  isValid,
-  resetForm,
-  onSubmit,
-}) {
+function Register({ values, handleChange, errors, isValid, onSubmit }) {
   return (
     <>
       <AuthHeader page="signup" />

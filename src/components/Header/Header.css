@@ -139,6 +139,11 @@
   margin-bottom: 24px;
 }
 
+.mobile-menu__link {
+  text-decoration: none;
+  color: #000;
+}
+
 .mobile-menu__account-container {
   margin-top: 586px;
   display: flex;

@@ -1,17 +1,31 @@
-import React, { useEffect } from "react";
+import { useEffect, useState } from "react";
 import "./Profile.css";
 import Header from "../Header/Header";
 import { mainApi } from "../../utils/MainApi";
+import { useProfileFormValidation } from "../../hooks/useFormWithValidation";
 
 function Profile({
   isLoggedIn,
   currentUser,
   handleLogout,
-  values,
-  handleChange,
-  isValid,
+  // values,
+  // handleChange,
+  // isValid,
   setCurrentUser,
 }) {
+  const { values, handleChange, isValid } = useProfileFormValidation({
+    username: currentUser.name,
+    email: currentUser.email,
+  });
+  const [message, setMessage] = useState("");
+  const [isValueNew, setIsValueNew] = useState(false);
+
+  useEffect(() => {
+    values.username === currentUser.name && values.email === currentUser.email
+      ? setIsValueNew(false)
+      : setIsValueNew(true);
+  }, [values]);
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -19,6 +33,8 @@ function Profile({
       .updateProfile(values.email, values.username)
       .then((res) => {
         setCurrentUser(res.data);
+        setMessage("Данные успешно обновлены");
+        setIsValueNew(false);
       })
       .catch((err) => console.log(err));
   };
@@ -36,7 +52,6 @@ function Profile({
               name="username"
               className="profile__input"
               required
-              placeholder={currentUser.name}
               value={values.username}
               onChange={handleChange}
             />
@@ -49,14 +64,14 @@ function Profile({
               name="email"
               className="profile__input"
               required
-              placeholder={currentUser.email}
               value={values.email}
               onChange={handleChange}
             />
           </div>
+          <span className="profile__message">{message}</span>
           <button
             className={`profile__submit-btn ${
-              !isValid ? "profile__submit-btn_inactive" : ""
+              !isValid || !isValueNew ? "profile__submit-btn_inactive" : ""
             }`}
             type="submit"
           >

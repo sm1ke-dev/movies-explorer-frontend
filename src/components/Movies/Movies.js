@@ -6,12 +6,26 @@ import MoviesCardList from "../MoviesCardList/MoviesCardList";
 import { moviesApi } from "../../utils/MoviesApi";
 import Preloader from "../Preloader/Preloader";
 
-function Movies({ isLoggedIn, savedMovies, saveMovie, deleteMovie }) {
+function Movies({
+  isLoggedIn,
+  initialSavedMovies,
+  saveMovie,
+  deleteMovie,
+  isMoviesArrayEmpty,
+  setIsMoviesArrayEmpty,
+}) {
   const [inputValue, setInputValue] = useState("");
   const [initialMoviesCards, setInitialMoviesCards] = useState([]);
   const [moviesCards, setMoviesCards] = useState([]);
   const [isInputOn, setIsInputOn] = useState(false);
   const [isLoaded, setIsLoaded] = useState(true);
+  const [isValid, setIsValid] = useState(true);
+
+  useEffect(() => {
+    !!moviesCards[0]
+      ? setIsMoviesArrayEmpty(false)
+      : setIsMoviesArrayEmpty(true);
+  }, [moviesCards]);
 
   useEffect(() => {
     if (isInputOn) {
@@ -22,27 +36,38 @@ function Movies({ isLoggedIn, savedMovies, saveMovie, deleteMovie }) {
   }, [isInputOn]);
 
   const handleSubmit = (e) => {
-    setIsLoaded(false);
     e.preventDefault();
 
-    moviesApi
-      .getInitialCards()
-      .then((movies) => {
-        const foundMovies = [];
-        movies.forEach((movie) => {
-          if (movie.nameEN.toLowerCase().includes(inputValue.toLowerCase())) {
-            foundMovies.push(movie);
-          } else if (
-            movie.nameRU.toLowerCase().includes(inputValue.toLowerCase())
-          ) {
-            foundMovies.push(movie);
+    if (inputValue) {
+      setIsValid(true);
+      setIsLoaded(false);
+
+      moviesApi
+        .getInitialCards()
+        .then((movies) => {
+          const foundMovies = [];
+          movies.forEach((movie) => {
+            if (movie.nameEN.toLowerCase().includes(inputValue.toLowerCase())) {
+              foundMovies.push(movie);
+            } else if (
+              movie.nameRU.toLowerCase().includes(inputValue.toLowerCase())
+            ) {
+              foundMovies.push(movie);
+            }
+          });
+          setInitialMoviesCards(foundMovies);
+          setMoviesCards(foundMovies);
+          if (!!foundMovies[0]) {
+            setIsMoviesArrayEmpty(false);
+          } else {
+            setIsMoviesArrayEmpty(true);
           }
-        });
-        setInitialMoviesCards(foundMovies);
-        setMoviesCards(foundMovies);
-      })
-      .catch((err) => console.log(err))
-      .finally(() => setIsLoaded(true));
+        })
+        .catch((err) => console.log(err))
+        .finally(() => setIsLoaded(true));
+    } else {
+      setIsValid(false);
+    }
   };
 
   return (
@@ -55,13 +80,15 @@ function Movies({ isLoggedIn, savedMovies, saveMovie, deleteMovie }) {
           onSubmit={handleSubmit}
           isInputOn={isInputOn}
           setIsInputOn={setIsInputOn}
+          isValid={isValid}
         />
         {isLoaded ? (
           <MoviesCardList
             movies={moviesCards}
-            savedMovies={savedMovies}
+            initialSavedMovies={initialSavedMovies}
             saveMovie={saveMovie}
             deleteMovie={deleteMovie}
+            isMoviesArrayEmpty={isMoviesArrayEmpty}
           />
         ) : (
           <Preloader />

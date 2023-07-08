@@ -1,9 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import "./SearchForm.css";
 import searchIcon from "../../images/search-icon.svg";
 import whiteSearchIcon from "../../images/search-icon-white.svg";
 
-function SearchForm({ value, onChange, onSubmit, isInputOn, setIsInputOn }) {
+function SearchForm({
+  value,
+  onChange,
+  onSubmit,
+  isInputOn,
+  setIsInputOn,
+  isValid,
+}) {
   return (
     <section className="search">
       <div className="search__form-container">
@@ -17,7 +24,6 @@ function SearchForm({ value, onChange, onSubmit, isInputOn, setIsInputOn }) {
             name="moviename"
             type="text"
             placeholder="Фильм"
-            required
             value={value}
             onChange={(e) => onChange(e.target.value)}
           ></input>
@@ -33,6 +39,9 @@ function SearchForm({ value, onChange, onSubmit, isInputOn, setIsInputOn }) {
           <p className="search__shorts">Короткометражки</p>
         </div>
       </div>
+      {!isValid && (
+        <span className="search__error">Нужно ввести ключевое слово</span>
+      )}
     </section>
   );
 }

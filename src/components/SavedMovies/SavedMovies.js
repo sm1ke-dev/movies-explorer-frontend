@@ -11,10 +11,23 @@ function SavedMovies({
   setSavedMovies,
   initialSavedMovies,
   deleteMovie,
+  isMoviesArrayEmpty,
+  setIsMoviesArrayEmpty,
 }) {
   const [inputValue, setInputValue] = useState("");
   const [isInputOn, setIsInputOn] = useState(false);
   const [isLoaded, setIsLoaded] = useState(true);
+  const [isValid, setIsValid] = useState(true);
+
+  useEffect(() => {
+    if (!!savedMovies[0]) {
+      setIsMoviesArrayEmpty(false);
+      localStorage.setItem("foundMovies", JSON.stringify(savedMovies));
+    } else {
+      setIsMoviesArrayEmpty(true);
+      localStorage.removeItem("foundMovies");
+    }
+  }, [savedMovies]);
 
   useEffect(() => {
     if (isInputOn) {
@@ -25,23 +38,35 @@ function SavedMovies({
   }, [isInputOn]);
 
   const handleSubmit = (e) => {
-    const foundMovies = [];
-
-    setIsLoaded(false);
     e.preventDefault();
 
-    savedMovies.forEach((movie) => {
-      if (movie.nameEN.toLowerCase().includes(inputValue.toLowerCase())) {
-        foundMovies.push(movie);
-      } else if (
-        movie.nameRU.toLowerCase().includes(inputValue.toLowerCase())
-      ) {
-        foundMovies.push(movie);
-      }
-    });
+    if (inputValue) {
+      setIsValid(true);
+      setIsLoaded(false);
 
-    setSavedMovies(foundMovies);
-    setIsLoaded(true);
+      const foundMovies = [];
+
+      savedMovies.forEach((movie) => {
+        if (movie.nameEN.toLowerCase().includes(inputValue.toLowerCase())) {
+          foundMovies.push(movie);
+        } else if (
+          movie.nameRU.toLowerCase().includes(inputValue.toLowerCase())
+        ) {
+          foundMovies.push(movie);
+        }
+      });
+
+      setSavedMovies(foundMovies);
+      setIsLoaded(true);
+      localStorage.setItem("foundMovies", JSON.stringify(foundMovies));
+      if (!!foundMovies[0]) {
+        setIsMoviesArrayEmpty(false);
+      } else {
+        setIsMoviesArrayEmpty(true);
+      }
+    } else {
+      setIsValid(false);
+    }
   };
 
   return (
@@ -54,12 +79,14 @@ function SavedMovies({
           onSubmit={handleSubmit}
           isInputOn={isInputOn}
           setIsInputOn={setIsInputOn}
+          isValid={isValid}
         />
         {isLoaded ? (
           <MoviesCardList
             saved={true}
             movies={savedMovies}
             deleteMovie={deleteMovie}
+            isMoviesArrayEmpty={isMoviesArrayEmpty}
           />
         ) : (
           <Preloader />

@@ -20,6 +20,7 @@ function App() {
   const [isLoading, setIsLoading] = useState(true);
   const [initialSavedMovies, setInitialSavedMovies] = useState([]);
   const [savedMovies, setSavedMovies] = useState([]);
+  const [isMoviesArrayEmpty, setIsMoviesArrayEmpty] = useState(false);
 
   const { values, handleChange, errors, isValid, resetForm } =
     useFormWithValidation();
@@ -91,7 +92,7 @@ function App() {
         localStorage.removeItem("token");
         setIsLoggedIn(false);
         setCurrentUser({});
-        navigate("/signin");
+        navigate("/");
       })
       .catch((err) => console.log(err));
   };
@@ -116,12 +117,30 @@ function App() {
   };
 
   const deleteMovie = (card) => {
-    mainApi
-      .deleteMovie(card)
-      .then((res) => {
-        getMovies();
-      })
-      .catch((err) => console.log(err));
+    if (localStorage.getItem("foundMovies")) {
+      setSavedMovies(
+        JSON.parse(localStorage.getItem("foundMovies")).filter(
+          (el) => el.movieId !== card.movieId
+        )
+      );
+      mainApi
+        .deleteMovie(card)
+        .then((res) => {
+          console.log(res);
+          setInitialSavedMovies(
+            initialSavedMovies.filter((el) => el.movieId !== res.data.movieId)
+          );
+        })
+        .catch((err) => console.log(err));
+    } else {
+      mainApi
+        .deleteMovie(card)
+        .then((res) => {
+          console.log(res);
+          getMovies();
+        })
+        .catch((err) => console.log(err));
+    }
   };
 
   return isLoading ? (
@@ -136,9 +155,11 @@ function App() {
             <ProtectedRouteElement
               element={Movies}
               isLoggedIn={isLoggedIn}
-              savedMovies={savedMovies}
+              initialSavedMovies={initialSavedMovies}
               saveMovie={saveMovie}
               deleteMovie={deleteMovie}
+              isMoviesArrayEmpty={isMoviesArrayEmpty}
+              setIsMoviesArrayEmpty={setIsMoviesArrayEmpty}
             />
           }
         />
@@ -152,6 +173,8 @@ function App() {
               setSavedMovies={setSavedMovies}
               initialSavedMovies={initialSavedMovies}
               deleteMovie={deleteMovie}
+              isMoviesArrayEmpty={isMoviesArrayEmpty}
+              setIsMoviesArrayEmpty={setIsMoviesArrayEmpty}
             />
           }
         />

@@ -6,18 +6,20 @@ import DeleteButton from "../DeleteButton/DeleteButton";
 function MoviesCard({
   cardElement,
   saved,
-  savedMovies,
+  initialSavedMovies,
   saveMovie,
   deleteMovie,
+  screenSize,
 }) {
   const [isHovered, setIsHovered] = useState(false);
   const isSaved =
-    !saved && savedMovies.some((movie) => movie.movieId === cardElement.id);
+    !saved &&
+    initialSavedMovies.some((movie) => movie.movieId === cardElement.id);
 
   const handleCardLike = () => {
     isSaved
       ? deleteMovie(
-          savedMovies.find((movie) => movie.movieId === cardElement.id)
+          initialSavedMovies.find((movie) => movie.movieId === cardElement.id)
         )
       : saveMovie(cardElement);
   };
@@ -62,10 +64,19 @@ function MoviesCard({
           </p>
         </div>
       </div>
-      {!saved && isHovered && (
+      {!saved && isHovered && !isSaved && (
+        <SaveButton isSaved={isSaved} handleCardLike={handleCardLike} />
+      )}
+      {!saved && isSaved && (
+        <SaveButton isSaved={isSaved} handleCardLike={handleCardLike} />
+      )}
+      {!saved && (screenSize === "medium" || screenSize === "small") && (
         <SaveButton isSaved={isSaved} handleCardLike={handleCardLike} />
       )}
       {saved && isHovered && <DeleteButton handleDelete={handleDelete} />}
+      {saved && (screenSize === "medium" || screenSize === "small") && (
+        <DeleteButton handleDelete={handleDelete} />
+      )}
     </li>
   );
 }

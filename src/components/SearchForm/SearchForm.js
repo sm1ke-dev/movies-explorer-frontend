@@ -35,7 +35,13 @@ function SearchForm({
         </form>
         <div className="search__line"></div>
         <div className="search__shorts-container">
-          <input type="checkbox" onClick={() => setIsInputOn(!isInputOn)} />
+          <input
+            type="checkbox"
+            className={`search__switch ${
+              isInputOn ? "search__switch_checked" : ""
+            }`}
+            onClick={() => setIsInputOn(!isInputOn)}
+          />
           <p className="search__shorts">Короткометражки</p>
         </div>
       </div>

@@ -89,7 +89,7 @@ function App() {
     mainApi
       .logout()
       .then((res) => {
-        localStorage.removeItem("token");
+        localStorage.clear();
         setIsLoggedIn(false);
         setCurrentUser({});
         navigate("/");

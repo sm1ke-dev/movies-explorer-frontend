@@ -25,7 +25,7 @@ function MoviesCardList(props) {
 
   return (
     <section className="cards">
-      {props.isMoviesArrayEmpty && (
+      {props.isMoviesArrayEmpty && !props.isFirstRender && (
         <span className="cards__error">Ничего не найдено</span>
       )}
       <ul className="cards__list">

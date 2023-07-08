@@ -14,12 +14,31 @@ function Movies({
   isMoviesArrayEmpty,
   setIsMoviesArrayEmpty,
 }) {
-  const [inputValue, setInputValue] = useState("");
-  const [initialMoviesCards, setInitialMoviesCards] = useState([]);
-  const [moviesCards, setMoviesCards] = useState([]);
-  const [isInputOn, setIsInputOn] = useState(false);
+  const [inputValue, setInputValue] = useState(
+    localStorage.getItem("allInputValue")
+      ? localStorage.getItem("allInputValue")
+      : ""
+  );
+  const [initialMoviesCards, setInitialMoviesCards] = useState(
+    localStorage.getItem("allInputValue")
+      ? JSON.parse(localStorage.getItem("allFoundMovies"))
+      : []
+  );
+  const [moviesCards, setMoviesCards] = useState(
+    localStorage.getItem("allInputValue")
+      ? JSON.parse(localStorage.getItem("allFoundMovies"))
+      : []
+  );
+  const [isInputOn, setIsInputOn] = useState(
+    localStorage.getItem("allInputValue")
+      ? JSON.parse(localStorage.getItem("allIsInputOn"))
+      : false
+  );
   const [isLoaded, setIsLoaded] = useState(true);
   const [isValid, setIsValid] = useState(true);
+  const [isFirstRender, setIsFirstRender] = useState(true);
+
+  console.log(initialMoviesCards);
 
   useEffect(() => {
     !!moviesCards[0]
@@ -28,6 +47,7 @@ function Movies({
   }, [moviesCards]);
 
   useEffect(() => {
+    localStorage.setItem("allIsInputOn", isInputOn);
     if (isInputOn) {
       setMoviesCards(moviesCards.filter((movie) => movie.duration < 41));
     } else {
@@ -39,6 +59,8 @@ function Movies({
     e.preventDefault();
 
     if (inputValue) {
+      setIsFirstRender(false);
+      setIsInputOn(false);
       setIsValid(true);
       setIsLoaded(false);
 
@@ -62,6 +84,8 @@ function Movies({
           } else {
             setIsMoviesArrayEmpty(true);
           }
+          localStorage.setItem("allFoundMovies", JSON.stringify(foundMovies));
+          localStorage.setItem("allInputValue", inputValue);
         })
         .catch((err) => console.log(err))
         .finally(() => setIsLoaded(true));
@@ -89,6 +113,7 @@ function Movies({
             saveMovie={saveMovie}
             deleteMovie={deleteMovie}
             isMoviesArrayEmpty={isMoviesArrayEmpty}
+            isFirstRender={isFirstRender}
           />
         ) : (
           <Preloader />

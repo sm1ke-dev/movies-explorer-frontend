@@ -6,18 +6,33 @@ function MoviesCardList(props) {
   const [cardsShown, setCardsShown] = useState(12);
   const [showMore, setShowMore] = useState(3);
   const [screenSize, setScreenSize] = useState("large");
+  const [width, setWidth] = useState(window.innerWidth);
 
   useEffect(() => {
-    if (window.innerWidth > 689 && window.innerWidth < 1100) {
+    const handleResize = (e) => {
+      setWidth(e.target.innerWidth);
+    };
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (width > 689 && width < 1100) {
       setCardsShown(8);
       setShowMore(2);
       setScreenSize("medium");
-    } else if (window.innerWidth > 319 && window.innerWidth < 690) {
+    } else if (width > 319 && width < 690) {
       setCardsShown(5);
       setShowMore(2);
       setScreenSize("small");
+    } else {
+      setCardsShown(12);
+      setShowMore(3);
+      setScreenSize("large");
     }
-  }, []);
+  }, [width]);
 
   const showMoreCards = () => {
     setCardsShown((prev) => prev + showMore);

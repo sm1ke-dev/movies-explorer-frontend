@@ -38,8 +38,6 @@ function Movies({
   const [isValid, setIsValid] = useState(true);
   const [isFirstRender, setIsFirstRender] = useState(true);
 
-  console.log(initialMoviesCards);
-
   useEffect(() => {
     !!moviesCards[0]
       ? setIsMoviesArrayEmpty(false)

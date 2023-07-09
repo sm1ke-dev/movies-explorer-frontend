@@ -2,15 +2,13 @@ import React from "react";
 import "./SaveButton.css";
 import savedIcon from "../../images/saved-icon.svg";
 
-function SaveButton() {
-  const [isClicked, setIsClicked] = React.useState(false);
-
+function SaveButton({ isSaved, handleCardLike }) {
   return (
     <div
-      className={`save-button ${isClicked ? "save-button_clicked" : ""}`}
-      onClick={() => setIsClicked(!isClicked)}
+      className={`save-button ${isSaved ? "save-button_clicked" : ""}`}
+      onClick={handleCardLike}
     >
-      {isClicked ? <img className="save-button__icon" src={savedIcon} /> : ""}
+      {isSaved ? <img className="save-button__icon" src={savedIcon} /> : ""}
     </div>
   );
 }

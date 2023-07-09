@@ -4,6 +4,10 @@
   padding-top: 70px;
 }
 
+.auth-header__logo {
+  cursor: pointer;
+}
+
 .auth-header__title {
   margin: 38px 0;
   font-size: 24px;

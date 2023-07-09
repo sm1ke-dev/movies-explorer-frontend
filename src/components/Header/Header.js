@@ -18,7 +18,7 @@ function Header(props) {
         className="header__logo"
         onClick={() => navigate("/")}
       />
-      {!props.loggedIn ? (
+      {!props.isLoggedIn ? (
         <div>
           <Link to="/signup" className="header__link">
             Регистрация
@@ -87,25 +87,35 @@ function Header(props) {
                 props.page === "main" ? "mobile-menu__item_active" : ""
               }`}
             >
-              Главная
+              <Link to="/" className="mobile-menu__link">
+                Главная
+              </Link>
             </li>
             <li
               className={`mobile-menu__item ${
                 props.page === "movies" ? "mobile-menu__item_active" : ""
               }`}
             >
-              Фильмы
+              <Link to="/movies" className="mobile-menu__link">
+                Фильмы
+              </Link>
             </li>
             <li
               className={`mobile-menu__item ${
                 props.page === "saved" ? "mobile-menu__item_active" : ""
               }`}
             >
-              Сохранённые фильмы
+              <Link to="/saved-movies" className="mobile-menu__link">
+                Сохранённые фильмы
+              </Link>
             </li>
           </ul>
           <div className="mobile-menu__account-container">
-            <p className="mobile-menu__account">Аккаунт</p>
+            <p className="mobile-menu__account">
+              <Link to="/profile" className="mobile-menu__link">
+                Аккаунт
+              </Link>
+            </p>
             <div
               className="mobile-menu__icon"
               style={{

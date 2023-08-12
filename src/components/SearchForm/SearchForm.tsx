@@ -3,14 +3,23 @@ import "./SearchForm.css";
 import searchIcon from "../../images/search-icon.svg";
 import whiteSearchIcon from "../../images/search-icon-white.svg";
 
-function SearchForm({
+type SearchFormProps = {
+  value: string;
+  onChange: (i: string) => void;
+  onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
+  isInputOn: boolean;
+  setIsInputOn: (i: boolean) => void;
+  isValid: boolean;
+};
+
+const SearchForm: React.FC<SearchFormProps> = ({
   value,
   onChange,
   onSubmit,
   isInputOn,
   setIsInputOn,
   isValid,
-}) {
+}) => {
   return (
     <section className="search">
       <div className="search__form-container">
@@ -50,6 +59,6 @@ function SearchForm({
       )}
     </section>
   );
-}
+};
 
 export default SearchForm;

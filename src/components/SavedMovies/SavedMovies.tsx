@@ -1,11 +1,18 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import Footer from "../Footer/Footer";
 import Header from "../Header/Header";
 import SearchForm from "../SearchForm/SearchForm";
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
 import Preloader from "../Preloader/Preloader";
+import { MoviesProps } from "../Movies/Movies";
+import { SavedMovie } from "../App/App";
 
-function SavedMovies({
+type SavedMoviesProps = MoviesProps & {
+  savedMovies: SavedMovie[];
+  setSavedMovies: (i: SavedMovie[]) => void;
+};
+
+const SavedMovies: React.FC<SavedMoviesProps> = ({
   isLoggedIn,
   savedMovies,
   setSavedMovies,
@@ -13,7 +20,7 @@ function SavedMovies({
   deleteMovie,
   isMoviesArrayEmpty,
   setIsMoviesArrayEmpty,
-}) {
+}) => {
   const [inputValue, setInputValue] = useState("");
   const [isInputOn, setIsInputOn] = useState(false);
   const [isLoaded, setIsLoaded] = useState(true);
@@ -37,14 +44,14 @@ function SavedMovies({
     }
   }, [isInputOn]);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (inputValue) {
       setIsValid(true);
       setIsLoaded(false);
 
-      const foundMovies = [];
+      const foundMovies: SavedMovie[] = [];
 
       savedMovies.forEach((movie) => {
         if (movie.nameEN.toLowerCase().includes(inputValue.toLowerCase())) {
@@ -84,7 +91,7 @@ function SavedMovies({
         {isLoaded ? (
           <MoviesCardList
             saved={true}
-            movies={savedMovies}
+            savedMovies={savedMovies}
             deleteMovie={deleteMovie}
             isMoviesArrayEmpty={isMoviesArrayEmpty}
           />
@@ -95,6 +102,6 @@ function SavedMovies({
       <Footer />
     </>
   );
-}
+};
 
 export default SavedMovies;

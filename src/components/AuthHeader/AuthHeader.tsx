@@ -3,7 +3,11 @@ import "./AuthHeader.css";
 import logo from "../../images/logo.svg";
 import { useNavigate } from "react-router-dom";
 
-function AuthHeader(props) {
+export type PageProp = {
+  page: string;
+};
+
+const AuthHeader: React.FC<PageProp> = ({ page }) => {
   const navigate = useNavigate();
 
   return (
@@ -15,10 +19,10 @@ function AuthHeader(props) {
         onClick={() => navigate("/")}
       />
       <h2 className="auth-header__title">
-        {props.page === "signup" ? "Добро пожаловать!" : "Рады видеть!"}
+        {page === "signup" ? "Добро пожаловать!" : "Рады видеть!"}
       </h2>
     </header>
   );
-}
+};
 
 export default AuthHeader;

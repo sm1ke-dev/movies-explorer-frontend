@@ -1,7 +1,7 @@
 import React from "react";
 import "./Techs.css";
 
-function Techs() {
+const Techs: React.FC = () => {
   return (
     <section className="techs main__techs">
       <h2 className="techs__title">Технологии</h2>
@@ -22,6 +22,6 @@ function Techs() {
       </ul>
     </section>
   );
-}
+};
 
 export default Techs;

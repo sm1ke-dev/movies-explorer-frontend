@@ -1,7 +1,13 @@
 import React from "react";
+import { AuthProps } from "../Login/Login";
 import "./AuthorizationForm.css";
 
-function AuthorizationForm({
+type AuthorizationFormProps = AuthProps & {
+  btnText: string;
+  children?: React.ReactNode;
+};
+
+const AuthorizationForm: React.FC<AuthorizationFormProps> = ({
   children,
   btnText,
   values,
@@ -9,7 +15,7 @@ function AuthorizationForm({
   errors,
   isValid,
   onSubmit,
-}) {
+}) => {
   return (
     <form className="form" onSubmit={onSubmit}>
       {children}
@@ -43,6 +49,6 @@ function AuthorizationForm({
       </button>
     </form>
   );
-}
+};
 
 export default AuthorizationForm;

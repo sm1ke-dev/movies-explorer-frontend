@@ -1,7 +1,7 @@
 import React from "react";
 import "./AboutProject.css";
 
-function AboutProject() {
+const AboutProject: React.FC = () => {
   return (
     <section className="about-project">
       <h2 className="about-project__title" id="more">
@@ -36,6 +36,6 @@ function AboutProject() {
       </div>
     </section>
   );
-}
+};
 
 export default AboutProject;

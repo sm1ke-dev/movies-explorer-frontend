@@ -1,18 +1,23 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./Profile.css";
 import Header from "../Header/Header";
 import { mainApi } from "../../utils/MainApi";
 import { useProfileFormValidation } from "../../hooks/useFormWithValidation";
+import { User } from "../App/App";
 
-function Profile({
+type ProfileProps = {
+  isLoggedIn: boolean;
+  currentUser: User;
+  handleLogout: () => void;
+  setCurrentUser: (i: User) => void;
+};
+
+const Profile: React.FC<ProfileProps> = ({
   isLoggedIn,
   currentUser,
   handleLogout,
-  // values,
-  // handleChange,
-  // isValid,
   setCurrentUser,
-}) {
+}) => {
   const { values, handleChange, isValid } = useProfileFormValidation({
     username: currentUser.name,
     email: currentUser.email,
@@ -26,12 +31,12 @@ function Profile({
       : setIsValueNew(true);
   }, [values]);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     mainApi
       .updateProfile(values.email, values.username)
-      .then((res) => {
+      .then((res: { data: User }) => {
         setCurrentUser(res.data);
         setMessage("Данные успешно обновлены");
         setIsValueNew(false);
@@ -84,6 +89,6 @@ function Profile({
       </main>
     </>
   );
-}
+};
 
 export default Profile;

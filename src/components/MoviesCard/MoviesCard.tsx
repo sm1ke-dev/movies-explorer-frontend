@@ -2,33 +2,48 @@ import { useState } from "react";
 import "./MoviesCard.css";
 import SaveButton from "../SaveButton/SaveButton";
 import DeleteButton from "../DeleteButton/DeleteButton";
+import { MainMovie, SavedMovie } from "../App/App";
 
-function MoviesCard({
-  cardElement,
+type MoviesCardProps = {
+  mainCardElement?: MainMovie;
+  savedCardElement?: SavedMovie;
+  saved: boolean;
+  initialSavedMovies?: SavedMovie[];
+  saveMovie: (i: MainMovie) => void;
+  deleteMovie: (i: SavedMovie) => void;
+  screenSize: string;
+};
+
+const MoviesCard: React.FC<MoviesCardProps> = ({
+  mainCardElement,
+  savedCardElement,
   saved,
   initialSavedMovies,
   saveMovie,
   deleteMovie,
   screenSize,
-}) {
+}) => {
   const [isHovered, setIsHovered] = useState(false);
+  const cardElement = mainCardElement || savedCardElement;
   const isSaved =
     !saved &&
-    initialSavedMovies.some((movie) => movie.movieId === cardElement.id);
+    initialSavedMovies!.some((movie) => movie.movieId === mainCardElement!.id);
 
   const handleCardLike = () => {
     isSaved
       ? deleteMovie(
-          initialSavedMovies.find((movie) => movie.movieId === cardElement.id)
+          initialSavedMovies!.find(
+            (movie) => movie.movieId === mainCardElement!.id
+          )!
         )
-      : saveMovie(cardElement);
+      : saveMovie(mainCardElement!);
   };
 
   const handleDelete = () => {
-    deleteMovie(cardElement);
+    deleteMovie(savedCardElement!);
   };
 
-  const convertTime = (mins) => {
+  const convertTime = (mins: number) => {
     const hours = Math.trunc(mins / 60);
     const minutes = mins % 60;
     return hours + "ч " + minutes;
@@ -41,25 +56,25 @@ function MoviesCard({
       onMouseOut={() => setIsHovered(false)}
     >
       <div className="card__img-container">
-        <a href={cardElement.trailerLink} target="_blank">
+        <a href={cardElement!.trailerLink} target="_blank">
           <img
             className="card__img"
             src={
               saved
-                ? cardElement.image
-                : `https://api.nomoreparties.co${cardElement.image.url}`
+                ? savedCardElement!.image
+                : `https://api.nomoreparties.co${mainCardElement!.image.url}`
             }
             alt="Фильм"
           />
         </a>
       </div>
       <div className="card__about-container">
-        <h4 className="card__title">{cardElement.nameRU}</h4>
+        <h4 className="card__title">{cardElement!.nameRU}</h4>
         <div className="card__time-container">
           <p className="card__time">
-            {cardElement.duration > 59
-              ? convertTime(cardElement.duration)
-              : cardElement.duration}
+            {cardElement!.duration > 59
+              ? convertTime(cardElement!.duration)
+              : cardElement!.duration}
             м
           </p>
         </div>
@@ -79,6 +94,6 @@ function MoviesCard({
       )}
     </li>
   );
-}
+};
 
 export default MoviesCard;

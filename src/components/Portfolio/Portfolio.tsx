@@ -1,7 +1,7 @@
 import React from "react";
 import "./Portfolio.css";
 
-function Portfolio() {
+const Portfolio = () => {
   return (
     <div className="portfolio">
       <h3 className="portfolio__name">Портфолио</h3>
@@ -39,6 +39,6 @@ function Portfolio() {
       </ul>
     </div>
   );
-}
+};
 
 export default Portfolio;

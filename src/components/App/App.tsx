@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Routes, Route, useNavigate } from "react-router-dom";
 
 import "./App.css";
@@ -14,12 +14,55 @@ import { mainApi } from "../../utils/MainApi";
 import ProtectedRouteElement from "../ProtectedRoute/ProtectedRoute";
 import Preloader from "../Preloader/Preloader";
 
-function App() {
+export type User = {
+  name: string;
+  email: string;
+  password: string;
+};
+
+type Movie = {
+  country: string;
+  director: string;
+  duration: number;
+  year: string;
+  description: string;
+  trailerLink: string;
+  thumbnail: string;
+  nameRU: string;
+  nameEN: string;
+};
+
+export type MainMovie = Movie & {
+  image: {
+    url: string;
+    formats: {
+      thumbnail: {
+        url: string;
+      };
+    };
+  };
+  id: number;
+};
+
+export type SavedMovie = Movie & {
+  image: string;
+  owner: string;
+  movieId: number;
+  _id: string;
+};
+
+const App: React.FC = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [currentUser, setCurrentUser] = useState({});
+  const [currentUser, setCurrentUser] = useState<User>({
+    name: "",
+    email: "",
+    password: "",
+  });
   const [isLoading, setIsLoading] = useState(true);
-  const [initialSavedMovies, setInitialSavedMovies] = useState([]);
-  const [savedMovies, setSavedMovies] = useState([]);
+  const [initialSavedMovies, setInitialSavedMovies] = useState<SavedMovie[]>(
+    []
+  );
+  const [savedMovies, setSavedMovies] = useState<SavedMovie[]>([]);
   const [isMoviesArrayEmpty, setIsMoviesArrayEmpty] = useState(false);
 
   const { values, handleChange, errors, isValid, resetForm } =
@@ -37,7 +80,7 @@ function App() {
 
   const tokenCheck = () => {
     if (localStorage.getItem("token")) {
-      mainApi.getMyInfo().then((res) => {
+      mainApi.getMyInfo().then((res: { data: User }) => {
         setIsLoggedIn(true);
         setCurrentUser(res.data);
         setIsLoading(false);
@@ -47,14 +90,14 @@ function App() {
     }
   };
 
-  const handleRegister = (e) => {
+  const handleRegister = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     mainApi
-      .register(values.email, values.username, values.password)
-      .then((res) => {
+      .register(values.email!, values.username!, values.password!)
+      .then((res: { data: User }) => {
         mainApi
-          .login(values.email, values.password)
+          .login(values.email!, values.password!)
           .then((message) => {
             resetForm();
             setIsLoggedIn(true);
@@ -67,15 +110,14 @@ function App() {
       .catch((err) => console.log(err));
   };
 
-  const handleLogin = (e) => {
+  const handleLogin = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     mainApi
-      .login(values.email, values.password)
-      .then((res) => {
+      .login(values.email!, values.password!)
+      .then((res: { message: string }) => {
         resetForm();
-        console.log(res);
-        mainApi.getMyInfo().then((user) => {
+        mainApi.getMyInfo().then((user: { data: User }) => {
           setIsLoggedIn(true);
           localStorage.setItem("token", "tokenIsActive");
           setCurrentUser(user.data);
@@ -88,10 +130,14 @@ function App() {
   const handleLogout = () => {
     mainApi
       .logout()
-      .then((res) => {
+      .then((res: { message: string }) => {
         localStorage.clear();
         setIsLoggedIn(false);
-        setCurrentUser({});
+        setCurrentUser({
+          name: "",
+          email: "",
+          password: "",
+        });
         navigate("/");
       })
       .catch((err) => console.log(err));
@@ -100,33 +146,32 @@ function App() {
   const getMovies = () => {
     mainApi
       .getMovies()
-      .then((res) => {
+      .then((res: { data: SavedMovie[] }) => {
         setInitialSavedMovies(res.data);
         setSavedMovies(res.data);
       })
       .catch((err) => console.log(err));
   };
 
-  const saveMovie = (card) => {
+  const saveMovie = (card: MainMovie) => {
     mainApi
       .saveMovie(card)
-      .then((res) => {
+      .then((res: { data: SavedMovie }) => {
         getMovies();
       })
       .catch((err) => console.log(err));
   };
 
-  const deleteMovie = (card) => {
+  const deleteMovie = (card: SavedMovie) => {
     if (localStorage.getItem("foundMovies")) {
       setSavedMovies(
-        JSON.parse(localStorage.getItem("foundMovies")).filter(
-          (el) => el.movieId !== card.movieId
+        JSON.parse(localStorage.getItem("foundMovies")!).filter(
+          (el: SavedMovie) => el.movieId !== card.movieId
         )
       );
       mainApi
         .deleteMovie(card)
-        .then((res) => {
-          console.log(res);
+        .then((res: { data: SavedMovie }) => {
           setInitialSavedMovies(
             initialSavedMovies.filter((el) => el.movieId !== res.data.movieId)
           );
@@ -135,17 +180,18 @@ function App() {
     } else {
       mainApi
         .deleteMovie(card)
-        .then((res) => {
-          console.log(res);
+        .then((res: { data: SavedMovie }) => {
           getMovies();
         })
         .catch((err) => console.log(err));
     }
   };
 
-  return isLoading ? (
-    <Preloader />
-  ) : (
+  if (isLoading) {
+    return <Preloader />;
+  }
+
+  return (
     <div className="page">
       <Routes>
         <Route path="/" element={<Main isLoggedIn={isLoggedIn} />} />
@@ -153,13 +199,17 @@ function App() {
           path="/movies"
           element={
             <ProtectedRouteElement
-              element={Movies}
               isLoggedIn={isLoggedIn}
-              initialSavedMovies={initialSavedMovies}
-              saveMovie={saveMovie}
-              deleteMovie={deleteMovie}
-              isMoviesArrayEmpty={isMoviesArrayEmpty}
-              setIsMoviesArrayEmpty={setIsMoviesArrayEmpty}
+              outlet={
+                <Movies
+                  isLoggedIn={isLoggedIn}
+                  initialSavedMovies={initialSavedMovies}
+                  saveMovie={saveMovie}
+                  deleteMovie={deleteMovie}
+                  isMoviesArrayEmpty={isMoviesArrayEmpty}
+                  setIsMoviesArrayEmpty={setIsMoviesArrayEmpty}
+                />
+              }
             />
           }
         />
@@ -167,14 +217,18 @@ function App() {
           path="/saved-movies"
           element={
             <ProtectedRouteElement
-              element={SavedMovies}
               isLoggedIn={isLoggedIn}
-              savedMovies={savedMovies}
-              setSavedMovies={setSavedMovies}
-              initialSavedMovies={initialSavedMovies}
-              deleteMovie={deleteMovie}
-              isMoviesArrayEmpty={isMoviesArrayEmpty}
-              setIsMoviesArrayEmpty={setIsMoviesArrayEmpty}
+              outlet={
+                <SavedMovies
+                  isLoggedIn={isLoggedIn}
+                  savedMovies={savedMovies}
+                  setSavedMovies={setSavedMovies}
+                  initialSavedMovies={initialSavedMovies}
+                  deleteMovie={deleteMovie}
+                  isMoviesArrayEmpty={isMoviesArrayEmpty}
+                  setIsMoviesArrayEmpty={setIsMoviesArrayEmpty}
+                />
+              }
             />
           }
         />
@@ -182,14 +236,15 @@ function App() {
           path="/profile"
           element={
             <ProtectedRouteElement
-              element={Profile}
               isLoggedIn={isLoggedIn}
-              currentUser={currentUser}
-              handleLogout={handleLogout}
-              values={values}
-              handleChange={handleChange}
-              isValid={isValid}
-              setCurrentUser={setCurrentUser}
+              outlet={
+                <Profile
+                  isLoggedIn={isLoggedIn}
+                  currentUser={currentUser}
+                  handleLogout={handleLogout}
+                  setCurrentUser={setCurrentUser}
+                />
+              }
             />
           }
         />
@@ -213,7 +268,6 @@ function App() {
               handleChange={handleChange}
               errors={errors}
               isValid={isValid}
-              resetForm={resetForm}
               onSubmit={handleLogin}
             />
           }
@@ -222,6 +276,6 @@ function App() {
       </Routes>
     </div>
   );
-}
+};
 
 export default App;

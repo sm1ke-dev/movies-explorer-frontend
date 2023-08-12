@@ -1,12 +1,22 @@
 import { useState, useCallback } from "react";
 import * as EmailValidator from "email-validator";
 
+export type ValidationStates = {
+  username?: string;
+  email?: string;
+  password?: string;
+};
+
 export function useFormWithValidation() {
-  const [values, setValues] = useState({});
-  const [errors, setErrors] = useState({});
+  const [values, setValues] = useState<ValidationStates>({
+    username: "",
+    email: "",
+    password: "",
+  });
+  const [errors, setErrors] = useState<ValidationStates>({});
   const [isValid, setIsValid] = useState(false);
 
-  const handleChange = (event) => {
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const target = event.target;
     const name = target.name;
     const value = target.value;
@@ -19,7 +29,7 @@ export function useFormWithValidation() {
 
     setValues({ ...values, [name]: value });
     setErrors({ ...errors, [name]: target.validationMessage });
-    setIsValid(target.closest("form").checkValidity());
+    setIsValid(target.closest("form")!.checkValidity());
   };
 
   const resetForm = useCallback(
@@ -34,11 +44,11 @@ export function useFormWithValidation() {
   return { values, handleChange, errors, isValid, resetForm };
 }
 
-export function useProfileFormValidation(defaultValues) {
+export function useProfileFormValidation(defaultValues: ValidationStates) {
   const [values, setValues] = useState(defaultValues);
   const [isValid, setIsValid] = useState(false);
 
-  const handleChange = (event) => {
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const target = event.target;
     const name = target.name;
     const value = target.value;
@@ -50,7 +60,7 @@ export function useProfileFormValidation(defaultValues) {
     }
 
     setValues({ ...values, [name]: value });
-    setIsValid(target.closest("form").checkValidity());
+    setIsValid(target.closest("form")!.checkValidity());
   };
 
   return { values, handleChange, isValid };

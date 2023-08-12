@@ -1,16 +1,38 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
+import { MainMovie, SavedMovie } from "../App/App";
 import MoviesCard from "../MoviesCard/MoviesCard";
 import "./MoviesCardList.css";
 
-function MoviesCardList(props) {
+type MoviesCardListProps = {
+  movies?: MainMovie[];
+  savedMovies?: SavedMovie[];
+  initialSavedMovies?: SavedMovie[];
+  saveMovie?: (i: MainMovie) => void;
+  deleteMovie: (i: SavedMovie) => void;
+  isMoviesArrayEmpty?: boolean;
+  isFirstRender?: boolean;
+  saved?: boolean;
+};
+
+const MoviesCardList: React.FC<MoviesCardListProps> = ({
+  movies,
+  savedMovies,
+  initialSavedMovies,
+  saveMovie,
+  deleteMovie,
+  isMoviesArrayEmpty,
+  isFirstRender,
+  saved,
+}) => {
   const [cardsShown, setCardsShown] = useState(12);
   const [showMore, setShowMore] = useState(3);
   const [screenSize, setScreenSize] = useState("large");
   const [width, setWidth] = useState(window.innerWidth);
 
   useEffect(() => {
-    const handleResize = (e) => {
-      setWidth(e.target.innerWidth);
+    const handleResize = (e: Event) => {
+      const target = e.target as Window;
+      setWidth(target.innerWidth);
     };
     window.addEventListener("resize", handleResize);
     return () => {
@@ -40,36 +62,36 @@ function MoviesCardList(props) {
 
   return (
     <section className="cards">
-      {props.isMoviesArrayEmpty && !props.isFirstRender && (
+      {isMoviesArrayEmpty && !isFirstRender && (
         <span className="cards__error">Ничего не найдено</span>
       )}
       <ul className="cards__list">
-        {!props.saved
-          ? props.movies
+        {!saved
+          ? movies!
               .slice(0, cardsShown)
               .map((movie) => (
                 <MoviesCard
-                  cardElement={movie}
+                  mainCardElement={movie}
                   key={movie.id}
-                  saved={props.saved}
-                  initialSavedMovies={props.initialSavedMovies}
-                  saveMovie={props.saveMovie}
-                  deleteMovie={props.deleteMovie}
+                  saved={saved!}
+                  initialSavedMovies={initialSavedMovies}
+                  saveMovie={saveMovie!}
+                  deleteMovie={deleteMovie}
                   screenSize={screenSize}
                 />
               ))
-          : props.movies.map((movie) => (
+          : savedMovies!.map((movie) => (
               <MoviesCard
-                cardElement={movie}
+                savedCardElement={movie}
                 key={movie.movieId}
-                saved={props.saved}
-                saveMovie={props.saveMovie}
-                deleteMovie={props.deleteMovie}
+                saved={saved}
+                saveMovie={saveMovie!}
+                deleteMovie={deleteMovie}
                 screenSize={screenSize}
               />
             ))}
       </ul>
-      {!props.saved && props.movies.length > cardsShown && (
+      {!saved && movies!.length > cardsShown && (
         <div className="cards__button-container">
           <button className="cards__button" onClick={showMoreCards}>
             Ещё
@@ -78,6 +100,6 @@ function MoviesCardList(props) {
       )}
     </section>
   );
-}
+};
 
 export default MoviesCardList;

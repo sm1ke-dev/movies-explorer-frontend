@@ -3,7 +3,7 @@ import "./AboutMe.css";
 import Portfolio from "../Portfolio/Portfolio";
 import studentPic from "../../images/student.jpg";
 
-function AboutMe() {
+const AboutMe: React.FC = () => {
   return (
     <section className="about-me">
       <h2 className="about-me__title">Студент</h2>
@@ -13,11 +13,11 @@ function AboutMe() {
           <h3 className="about-me__name">Анатолий</h3>
           <p className="about-me__job">Фронтенд-разработчик, 23 года</p>
           <p className="about-me__info">
-            В этом году я окончил инженерно-педагогический факультет РГППУ.
-            Во время учебы меня привлек frontend. Мне понравился процесс вёрстки 
-            сайтов, поэтому я записался на курс по веб-разработке, чтобы стать 
-            специалистом. В процессе больше понравилось работать с 
-            библиотекой React, поэтому делаю упор именно на неё.
+            В этом году я окончил инженерно-педагогический факультет РГППУ. Во
+            время учебы меня привлек frontend. Мне понравился процесс вёрстки
+            сайтов, поэтому я записался на курс по веб-разработке, чтобы стать
+            специалистом. В процессе больше понравилось работать с библиотекой
+            React, поэтому делаю упор именно на неё.
           </p>
           <a
             href="https://github.com/sm1ke-dev"
@@ -34,6 +34,6 @@ function AboutMe() {
       <Portfolio />
     </section>
   );
-}
+};
 
 export default AboutMe;

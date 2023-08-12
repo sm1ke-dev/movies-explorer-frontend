@@ -1,37 +1,47 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Footer from "../Footer/Footer";
 import Header from "../Header/Header";
 import SearchForm from "../SearchForm/SearchForm";
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
 import { moviesApi } from "../../utils/MoviesApi";
 import Preloader from "../Preloader/Preloader";
+import { MainMovie, SavedMovie } from "../App/App";
 
-function Movies({
+export type MoviesProps = {
+  isLoggedIn: boolean;
+  initialSavedMovies: SavedMovie[];
+  saveMovie?: (i: MainMovie) => void;
+  deleteMovie: (i: SavedMovie) => void;
+  isMoviesArrayEmpty: boolean;
+  setIsMoviesArrayEmpty: (i: boolean) => void;
+};
+
+const Movies: React.FC<MoviesProps> = ({
   isLoggedIn,
   initialSavedMovies,
   saveMovie,
   deleteMovie,
   isMoviesArrayEmpty,
   setIsMoviesArrayEmpty,
-}) {
-  const [inputValue, setInputValue] = useState(
+}) => {
+  const [inputValue, setInputValue] = useState<string>(
     localStorage.getItem("allInputValue")
-      ? localStorage.getItem("allInputValue")
+      ? localStorage.getItem("allInputValue")!
       : ""
   );
-  const [initialMoviesCards, setInitialMoviesCards] = useState(
+  const [initialMoviesCards, setInitialMoviesCards] = useState<MainMovie[]>(
     localStorage.getItem("allInputValue")
-      ? JSON.parse(localStorage.getItem("allFoundMovies"))
+      ? JSON.parse(localStorage.getItem("allFoundMovies")!)
       : []
   );
-  const [moviesCards, setMoviesCards] = useState(
+  const [moviesCards, setMoviesCards] = useState<MainMovie[]>(
     localStorage.getItem("allInputValue")
-      ? JSON.parse(localStorage.getItem("allFoundMovies"))
+      ? JSON.parse(localStorage.getItem("allFoundMovies")!)
       : []
   );
-  const [isInputOn, setIsInputOn] = useState(
+  const [isInputOn, setIsInputOn] = useState<boolean>(
     localStorage.getItem("allInputValue")
-      ? JSON.parse(localStorage.getItem("allIsInputOn"))
+      ? JSON.parse(localStorage.getItem("allIsInputOn")!)
       : false
   );
   const [isLoaded, setIsLoaded] = useState(true);
@@ -45,15 +55,17 @@ function Movies({
   }, [moviesCards]);
 
   useEffect(() => {
-    localStorage.setItem("allIsInputOn", isInputOn);
+    localStorage.setItem("allIsInputOn", JSON.stringify(isInputOn));
     if (isInputOn) {
-      setMoviesCards(moviesCards.filter((movie) => movie.duration < 41));
+      setMoviesCards(
+        moviesCards.filter((movie: MainMovie) => movie.duration < 41)
+      );
     } else {
       setMoviesCards(initialMoviesCards);
     }
   }, [isInputOn]);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (inputValue) {
@@ -64,9 +76,9 @@ function Movies({
 
       moviesApi
         .getInitialCards()
-        .then((movies) => {
-          const foundMovies = [];
-          movies.forEach((movie) => {
+        .then((movies: MainMovie[]) => {
+          const foundMovies: MainMovie[] = [];
+          movies.forEach((movie: MainMovie) => {
             if (movie.nameEN.toLowerCase().includes(inputValue.toLowerCase())) {
               foundMovies.push(movie);
             } else if (
@@ -120,6 +132,6 @@ function Movies({
       <Footer />
     </>
   );
-}
+};
 
 export default Movies;

@@ -3,8 +3,15 @@ import "./Register.css";
 import AuthorizationForm from "../AuthorizationForm/AuthorizationForm";
 import AuthHeader from "../AuthHeader/AuthHeader";
 import AuthText from "../AuthText/AuthText";
+import { AuthProps } from "../Login/Login";
 
-function Register({ values, handleChange, errors, isValid, onSubmit }) {
+const Register: React.FC<AuthProps> = ({
+  values,
+  handleChange,
+  errors,
+  isValid,
+  onSubmit,
+}) => {
   return (
     <>
       <AuthHeader page="signup" />
@@ -24,8 +31,8 @@ function Register({ values, handleChange, errors, isValid, onSubmit }) {
               type="text"
               className="form__input"
               required
-              minLength="2"
-              maxLength="30"
+              minLength={2}
+              maxLength={30}
               value={values.username}
               onChange={handleChange}
             />
@@ -36,6 +43,6 @@ function Register({ values, handleChange, errors, isValid, onSubmit }) {
       </main>
     </>
   );
-}
+};
 
 export default Register;

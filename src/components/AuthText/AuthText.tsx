@@ -1,24 +1,25 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import "./AuthText.css";
+import { PageProp } from "../AuthHeader/AuthHeader";
 
-function AuthText(props) {
+const AuthText: React.FC<PageProp> = ({ page }) => {
   return (
     <p className="auth-text">
-      {props.page === "signup"
+      {page === "signup"
         ? "Уже зарегистрированы? "
         : "Ещё не зарегистрированы? "}
-      {props.page === "signup" ? (
-        <Link to="/signin" className="auth-text__link" href="#">
+      {page === "signup" ? (
+        <Link to="/signin" className="auth-text__link">
           Войти
         </Link>
       ) : (
-        <Link to="/signup" className="auth-text__link" href="#">
+        <Link to="/signup" className="auth-text__link">
           Регистрация
         </Link>
       )}
     </p>
   );
-}
+};
 
 export default AuthText;

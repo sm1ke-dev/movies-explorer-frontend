@@ -7,7 +7,11 @@ import Techs from "../Techs/Techs";
 import AboutMe from "../AboutMe/AboutMe";
 import Footer from "../Footer/Footer";
 
-function Main({ isLoggedIn }) {
+type MainProps = {
+  isLoggedIn: boolean;
+};
+
+const Main: React.FC<MainProps> = ({ isLoggedIn }) => {
   return (
     <>
       <Header page="main" isLoggedIn={isLoggedIn} />
@@ -20,6 +24,6 @@ function Main({ isLoggedIn }) {
       <Footer />
     </>
   );
-}
+};
 
 export default Main;

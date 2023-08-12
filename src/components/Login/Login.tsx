@@ -3,8 +3,23 @@ import "./Login.css";
 import AuthorizationForm from "../AuthorizationForm/AuthorizationForm";
 import AuthHeader from "../AuthHeader/AuthHeader";
 import AuthText from "../AuthText/AuthText";
+import { ValidationStates } from "../../hooks/useFormWithValidation";
 
-function Login({ values, handleChange, errors, isValid, resetForm, onSubmit }) {
+export type AuthProps = {
+  values: ValidationStates;
+  handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  errors: ValidationStates;
+  isValid: boolean;
+  onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
+};
+
+const Login: React.FC<AuthProps> = ({
+  values,
+  handleChange,
+  errors,
+  isValid,
+  onSubmit,
+}) => {
   return (
     <>
       <AuthHeader page="signin" />
@@ -15,13 +30,12 @@ function Login({ values, handleChange, errors, isValid, resetForm, onSubmit }) {
           handleChange={handleChange}
           errors={errors}
           isValid={isValid}
-          resetForm={resetForm}
           onSubmit={onSubmit}
         />
         <AuthText page="signin" />
       </main>
     </>
   );
-}
+};
 
 export default Login;

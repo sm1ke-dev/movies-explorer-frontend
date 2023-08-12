@@ -1,11 +1,29 @@
+import { MainMovie, SavedMovie } from "../components/App/App";
+
 class MainApi {
-  constructor({ baseUrl, headers, credentials }) {
+  _baseUrl: string;
+  _headers: {
+    "Content-Type": string;
+  };
+  _credentials: RequestCredentials;
+
+  constructor({
+    baseUrl,
+    headers,
+    credentials,
+  }: {
+    baseUrl: string;
+    headers: {
+      "Content-Type": string;
+    };
+    credentials: RequestCredentials;
+  }) {
     this._baseUrl = baseUrl;
     this._headers = headers;
     this._credentials = credentials;
   }
 
-  _checkResponse(res) {
+  _checkResponse(res: Response) {
     if (res.ok) {
       return res.json();
     }
@@ -13,11 +31,11 @@ class MainApi {
     return Promise.reject(`Ошибка: ${res.status}`);
   }
 
-  _request(url, options) {
+  _request(url: string, options: RequestInit) {
     return fetch(url, options).then(this._checkResponse);
   }
 
-  register(email, name, password) {
+  register(email: string, name: string, password: string) {
     return this._request(`${this._baseUrl}/signup`, {
       method: "POST",
       headers: this._headers,
@@ -29,7 +47,7 @@ class MainApi {
     });
   }
 
-  login(email, password) {
+  login(email: string, password: string) {
     return this._request(`${this._baseUrl}/signin`, {
       method: "POST",
       headers: this._headers,
@@ -54,7 +72,7 @@ class MainApi {
     });
   }
 
-  updateProfile(email, name) {
+  updateProfile(email?: string, name?: string) {
     return this._request(`${this._baseUrl}/users/me`, {
       method: "PATCH",
       headers: this._headers,
@@ -72,7 +90,8 @@ class MainApi {
     });
   }
 
-  saveMovie(movieCard) {
+  saveMovie(movieCard: MainMovie) {
+    console.log(movieCard);
     return this._request(`${this._baseUrl}/movies`, {
       method: "POST",
       headers: this._headers,
@@ -93,7 +112,7 @@ class MainApi {
     });
   }
 
-  deleteMovie(movieCard) {
+  deleteMovie(movieCard: SavedMovie) {
     return this._request(`${this._baseUrl}/movies/${movieCard._id}`, {
       method: "DELETE",
       credentials: this._credentials,

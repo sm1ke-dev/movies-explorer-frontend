@@ -2,7 +2,12 @@ import React from "react";
 import "./SaveButton.css";
 import savedIcon from "../../images/saved-icon.svg";
 
-function SaveButton({ isSaved, handleCardLike }) {
+type SaveButtonProps = {
+  isSaved: boolean;
+  handleCardLike: () => void;
+};
+
+const SaveButton: React.FC<SaveButtonProps> = ({ isSaved, handleCardLike }) => {
   return (
     <div
       className={`save-button ${isSaved ? "save-button_clicked" : ""}`}
@@ -11,6 +16,6 @@ function SaveButton({ isSaved, handleCardLike }) {
       {isSaved ? <img className="save-button__icon" src={savedIcon} /> : ""}
     </div>
   );
-}
+};
 
 export default SaveButton;

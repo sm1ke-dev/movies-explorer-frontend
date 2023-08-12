@@ -4,7 +4,7 @@ import { HashLink } from "react-router-hash-link";
 
 import promoPic from "../../images/promo-pic.png";
 
-function Promo() {
+const Promo: React.FC = () => {
   return (
     <section className="promo main__promo">
       <div className="promo__text-container">
@@ -21,6 +21,6 @@ function Promo() {
       <img className="promo__pic" src={promoPic} alt="Лого" />
     </section>
   );
-}
+};
 
 export default Promo;

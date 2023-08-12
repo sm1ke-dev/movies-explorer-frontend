@@ -5,8 +5,11 @@ import accountIcon from "../../images/account-icon.svg";
 import burgerIcon from "../../images/burger-icon.svg";
 import burgerClose from "../../images/burger-close.svg";
 import { Link, useNavigate } from "react-router-dom";
+import { PageProp } from "../AuthHeader/AuthHeader";
 
-function Header(props) {
+type HeaderProps = PageProp & { isLoggedIn: boolean };
+
+const Header: React.FC<HeaderProps> = ({ page, isLoggedIn }) => {
   const [isMenuOpened, setIsMenuOpened] = React.useState(false);
   const navigate = useNavigate();
 
@@ -18,7 +21,7 @@ function Header(props) {
         className="header__logo"
         onClick={() => navigate("/")}
       />
-      {!props.isLoggedIn ? (
+      {!isLoggedIn ? (
         <div>
           <Link to="/signup" className="header__link">
             Регистрация
@@ -33,7 +36,7 @@ function Header(props) {
             <Link
               to="/movies"
               className={`header__nav ${
-                props.page === "movies" ? "header__nav_selected" : ""
+                page === "movies" ? "header__nav_selected" : ""
               }`}
             >
               Фильмы
@@ -41,7 +44,7 @@ function Header(props) {
             <Link
               to="/saved-movies"
               className={`header__nav ${
-                props.page === "saved" ? "header__nav_selected" : ""
+                page === "saved" ? "header__nav_selected" : ""
               }`}
             >
               Сохраненные фильмы
@@ -84,7 +87,7 @@ function Header(props) {
           <ul className="mobile-menu__list">
             <li
               className={`mobile-menu__item ${
-                props.page === "main" ? "mobile-menu__item_active" : ""
+                page === "main" ? "mobile-menu__item_active" : ""
               }`}
             >
               <Link to="/" className="mobile-menu__link">
@@ -93,7 +96,7 @@ function Header(props) {
             </li>
             <li
               className={`mobile-menu__item ${
-                props.page === "movies" ? "mobile-menu__item_active" : ""
+                page === "movies" ? "mobile-menu__item_active" : ""
               }`}
             >
               <Link to="/movies" className="mobile-menu__link">
@@ -102,7 +105,7 @@ function Header(props) {
             </li>
             <li
               className={`mobile-menu__item ${
-                props.page === "saved" ? "mobile-menu__item_active" : ""
+                page === "saved" ? "mobile-menu__item_active" : ""
               }`}
             >
               <Link to="/saved-movies" className="mobile-menu__link">
@@ -127,6 +130,6 @@ function Header(props) {
       </div>
     </header>
   );
-}
+};
 
 export default Header;
